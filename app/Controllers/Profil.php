@@ -51,24 +51,21 @@ class Profil extends BaseController
 
     public function ubahprofil($id)
     {
-        $cekid = $this->userMdl->where('id', $id)->first();
-
-        $passold = $this->request->getPost('passold');
+        //$cekid = $this->userMdl->where('id', $id)->first();
+        // $passold = $this->request->getPost('passold');
         $foto = $this->request->getFile('fotoprofil');
-
         if ($this->validate($this->userMdl->ProfilRules)) {
 
-            $data = [
-                'password' => password_hash($this->request->getPost('passbaru'), PASSWORD_BCRYPT),
-            ];
+            $data['password'] = $this->request->getPost('passbaru');
 
             if ($foto->isValid() && !$foto->hasMoved()) {
+                //mengecek foto ke upload dan belum move ke folder
                 $namafoto = $foto->getRandomName();
                 $foto->move('asset/images', $namafoto);
                 $data['fotoprofil'] = $namafoto;
             }
-
-            $this->userMdl->ubahPass($id, $data);
+            //dd($foto->getError());
+            $this->userMdl->ubahProfil($id, $data);
 
             session()->setFlashdata('psnpass', 'Berhasil ganti password baru');
             return redirect()->to('/profil/' . $this->profile->username);

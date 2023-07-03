@@ -113,7 +113,7 @@ class UserModel extends Model
         return [$user->username, $this->getInsertID()];
     }
 
-    function ubahPass($id, $data)
+    function ubahProfil($id, $data)
     {
         $user = new User();
         $user->password = $data['password'];

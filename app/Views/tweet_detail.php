@@ -23,9 +23,12 @@
       <div class="card mb-3">
         <div class="card-body">
           <div class="media">
-
-            <img src="<?= base_url('asset/images/no-images.jfif'); ?>" class="mr-3 rounded-circle tahu"
-              alt="User Avatar">
+            <?php if (empty($data['fotoprofil'])) {
+              echo '<img src="' . base_url('asset/images/download.png') . '" class="mr-3 rounded-circle tahu" alt="User Avatar">';
+            } else {
+              echo '<img src="' . base_url('asset/images/' . $data['fotoprofil']) . '"  class="mr-3 rounded-circle tahu" alt="User Avatar">';
+            }
+            ?>
             <div class="media-body">
               <h6 class="mt-0">
                 <?= $data['fullname']; ?>
@@ -58,8 +61,12 @@
           <div class="comments">
             <?php foreach ($data['komentar'] as $comment): ?>
               <div class="media">
-                <img src="<?= base_url('asset/images/download.png'); ?>" class="mr-3 rounded-circle tahu2"
-                  alt="User Avatar">
+                <?php if (empty($comment['fotoprofil'])) {
+                  echo '<img src="' . base_url('asset/images/download.png') . '" class="mr-3 rounded-circle tahu2" alt="User Avatar">';
+                } else {
+                  echo '<img src="' . base_url('asset/images/' . $comment['fotoprofil']) . '"  class="mr-3 rounded-circle tahu2" alt="User Avatar">';
+                }
+                ?>
                 <div class="media-body">
                   <h6 class="mt-0">
                     <?= $comment['fullname'] ?>
@@ -72,8 +79,8 @@
                     <?= $comment['komentar'] ?>
                   </p>
                   <a href="#" class="btn btn-sm btn-link reply-btn"><i class="fas fa-reply"></i> Reply </a>
-                   <!-- Reply Form --><br><br>
-                   <div class="reply-form mt-3" style="display: none;">
+                  <!-- Reply Form --><br><br>
+                  <div class="reply-form mt-3" style="display: none;">
                     <?php
                     helper('form');
                     $validation = \Config\Services::validation();
@@ -99,8 +106,12 @@
                     <?php foreach ($replyData[$comment['id']] as $reply): ?>
                       <div class="nested-comments">
                         <div class="media">
-                          <img src="<?= base_url('asset/images/download.png'); ?>" class="mr-3 rounded-circle tahu2"
-                            alt="User Avatar">
+                          <?php if (empty($reply['fotoprofil'])) {
+                            echo '<img src="' . base_url('asset/images/download.png') . '" class="mr-3 rounded-circle tahu3" alt="User Avatar">';
+                          } else {
+                            echo '<img src="' . base_url('asset/images/' . $reply['fotoprofil']) . '"  class="mr-3 rounded-circle tahu3" alt="User Avatar">';
+                          }
+                          ?>
                           <div class="media-body">
                             <h6 class="mt-0">
                               <?= $reply['fullname'] ?>
@@ -117,7 +128,7 @@
                     <?php endforeach; ?>
                   <?php endif; ?>
                   <!-- End of Nested Comments -->
-                 
+
                 </div>
               </div>
             <?php endforeach; ?>

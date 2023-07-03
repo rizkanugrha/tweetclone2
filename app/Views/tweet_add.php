@@ -26,6 +26,15 @@ $validation = \Config\Services::validation(); ?>
                     <?= form_dropdown('category', $categories, '', 'class="form-select"') ?>
                 </div>
                 <div class="mb-3">
+                    <label for="tweet-image">Foto Tweet</label>
+                    <input type="file" name="fototweet"
+                        class="form-control-file"
+                        id="tweet-image">
+                    <div style="color: red; font-size: small;">
+                      
+                    </div>
+                </div>
+                <div class="mb-3">
                     <input type="submit" class="btn btn-primary" value="Tambah Tweet">
                     <a href="<?= previous_url() ?>" class="btn btn-warning">Kembali</a>
                 </div>

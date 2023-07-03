@@ -16,11 +16,23 @@
 
 
 .unlike-btn {
-	color: red;
-   
+    color: red;
+
 }
 
 .like-button.liked {
-    color:#007bff; /* Atur tampilan sesuai kebutuhan */
+    color: #007bff;
+    /* Atur tampilan sesuai kebutuhan */
+}
+
+
+.tweet-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.crd-bottom {
+    height: 11.19px;
+	width: 37px;
+	border-radius: 10px;
   }
-  

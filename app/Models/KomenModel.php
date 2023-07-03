@@ -43,7 +43,7 @@ class KomenModel extends Model
 
     public function getKomentarByTweetId($tweet_id)
     {
-        $query = $this->select('komentar, komens.id, users.username, users.fullname, users.id as user_id')
+        $query = $this->select('komentar, komens.id, users.username,users.fotoprofil, users.fullname, users.id as user_id')
             ->where('tweet_id', $tweet_id)
             ->join('users', 'users.id = komens.user_id')
             ->findAll();

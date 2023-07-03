@@ -32,7 +32,7 @@ class ReplyModel extends Model
     }
     public function getReplyByIdKomen($komen_id)
     {
-        $query = $this->select('replies, reply.id, users.username, users.fullname, users.id as user_id')
+        $query = $this->select('replies, reply.id, users.username, users.fotoprofil, users.fullname, users.id as user_id')
             ->where('komens_id', $komen_id)
             ->join('users', 'users.id = reply.user_id')
             ->findAll();

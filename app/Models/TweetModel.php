@@ -47,7 +47,7 @@ class TweetModel extends Model
 
     public function getLatest()
     {
-        $query = $this->select('tweets.id, user_id, username, fullname, content, category, created_at, , updated_at')
+        $query = $this->select('tweets.id, user_id, username, fotoprofil, fullname, content, category, created_at, , updated_at')
             ->orderBy('updated_at', 'desc')
             ->join('users', 'users.id = tweets.user_id');
         return $query->findAll();
@@ -56,7 +56,7 @@ class TweetModel extends Model
     public function getByCategory($category)
     {
         $category = $this->escapeString($category);    
-        $query = $this->select('tweets.id, user_id, username, fullname, content, category, created_at, updated_at')
+        $query = $this->select('tweets.id, user_id, username, fotoprofil, fullname, content, category, created_at, updated_at')
             ->where('category', $category)->orderBy('updated_at', 'desc')
             ->join('users', 'users.id = tweets.user_id');
         return $query->findAll();
@@ -65,7 +65,7 @@ class TweetModel extends Model
     public function detailbyId($id)
     {
         $id = $this->escapeString($id);
-        $query = $this->select('tweets.id, user_id, username, fullname, content, category, created_at')
+        $query = $this->select('tweets.id, user_id, username, fotoprofil, fullname, content, category, created_at')
             ->where('tweets.id', $id)
             ->join('users', 'users.id = tweets.user_id');
         return $query->where('tweets.id', $id)->first();
