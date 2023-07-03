@@ -1,0 +1,26 @@
+.tahu {
+    width: 60px;
+    height: 60px;
+}
+
+.tahu2 {
+    width: 40px;
+    height: 40px;
+}
+
+
+.tahu3 {
+    width: 25px;
+    height: 25px;
+}
+
+
+.unlike-btn {
+	color: red;
+   
+}
+
+.like-button.liked {
+    color:#007bff; /* Atur tampilan sesuai kebutuhan */
+  }
+  
