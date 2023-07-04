@@ -3,8 +3,9 @@ namespace App\Filters;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Filters\FilterInterface;
+namespace App\Filters;
 
-class CekLogin implements FilterInterface
+class cekLogin implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
