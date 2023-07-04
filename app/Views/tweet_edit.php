@@ -35,9 +35,12 @@ $validation = \Config\Services::validation(); ?>
                         <?= $validation->getError('fototweet') ?>
                     </div>
                     <div id="tweet-image-preview">
-                        <?php if (isset($data['fototweet']) && !empty($data['fototweet'])){
-                            echo '<br><br><img src="' . base_url('asset/images/tweets/' .$data['fototweet']) . '" style="max-width:100px;">';
+                        <?php if (isset($data['fototweet']) && !empty($data['fototweet'])) {
+                            echo '<br><br><img src="' . base_url('asset/images/tweets/' . $data['fototweet']) . '" style="max-width:100px;">';
+                            echo '<br><br><a href="' . base_url('/hpsfototweet//' . $data['id']) . '" class="btn btn-sm btn-danger"
+                            onclick="return confirm(\'Anda yakin ingin hapus foto tweet?\')">Hapus foto tweet</a>';
                         } ?>
+
                     </div>
                 </div>
                 <div class="mb-3">

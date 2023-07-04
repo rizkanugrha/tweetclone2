@@ -23,7 +23,6 @@ class Auth extends BaseController
     }
 
 
-
     public function register()
     {
         $data = [
@@ -32,6 +31,7 @@ class Auth extends BaseController
         return view('auth/auth_register', $data);
     }
 
+
     public function addUser()
     {
         $userModel = new UserModel();
@@ -39,10 +39,10 @@ class Auth extends BaseController
 
         if ($this->validate($userModel->rules)) {
             $data = [
-                'username' => $this->request->getPost('username'),
-                'password' => $this->request->getPost('password'),
-                'fullname' => $this->request->getPost('fullname'),
-                'email' => $this->request->getPost('email')
+                'username' => stripslashes(htmlentities($this->request->getPost('username'), ENT_QUOTES)),
+                'password' => stripslashes(htmlentities($this->request->getPost('password'), ENT_QUOTES)),
+                'fullname' => stripslashes(htmlentities($this->request->getPost('fullname'), ENT_QUOTES)),
+                'email' => stripslashes(htmlentities($this->request->getPost('email'), ENT_QUOTES))
             ];
             $result = $userModel->addUser($data);
             if ($result) {
@@ -55,14 +55,15 @@ class Auth extends BaseController
         }
     }
 
+
     public function login()
     {
         $userMdl = new UserModel();
         //laadpgtmqvawshad
         if ($this->validate($userMdl->loginRules)) {
             $result = $userMdl->login(
-                $this->request->getPost('username'),
-                $this->request->getPost('password')
+                stripslashes(htmlentities($this->request->getPost('username'), ENT_QUOTES)),
+                stripslashes(htmlentities($this->request->getPost('password'), ENT_QUOTES))
             );
             if ($result) {
                 session()->set(
@@ -84,12 +85,14 @@ class Auth extends BaseController
         }
     }
 
+
     public function logout()
     {
         session()->remove('currentuser');
         session()->setFlashdata('logout', 'success');
         return redirect()->to('/auth');
     }
+
 
     public function lupapas()
     {
@@ -98,9 +101,10 @@ class Auth extends BaseController
 
     }
 
+
     public function sendResetLink()
     {
-        $email = $this->request->getPost('email');
+        $email = htmlentities($this->request->getPost('email'), ENT_QUOTES);
 
         // Cek apakah email ada dalam database
         $user = $this->userModel->where('email', $email)->first();
@@ -109,9 +113,6 @@ class Auth extends BaseController
         if ($user) {
             // Generate token dan simpan dalam database
             $token = bin2hex(random_bytes(32));
-            date_default_timezone_set('Asia/Jakarta');
-
-            //$currentDateTime = date('Y-m-d H:i:s');
             $data = $user->toArray();
             $data['token'] = $token;
             // Save the updated data
@@ -143,7 +144,6 @@ class Auth extends BaseController
 
     public function resetPass($token)
     {
-        date_default_timezone_set('Asia/Jakarta');
         $cektoken = $this->userModel->where('token', $token)
             ->first();
 
@@ -158,10 +158,11 @@ class Auth extends BaseController
         }
     }
 
+    
     public function updatePassword()
     {
-        $token = $this->request->getPost('token');
-        $password = $this->request->getPost('barupass');
+        $token = stripslashes(htmlentities($this->request->getPost('token'), ENT_QUOTES));
+        $password = stripslashes(htmlentities($this->request->getPost('barupass'), ENT_QUOTES));
         $cektoken = $this->userModel->where('token', $token)
             ->first();
         if ($cektoken) {

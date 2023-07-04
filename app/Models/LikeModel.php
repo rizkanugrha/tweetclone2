@@ -32,10 +32,14 @@ class LikeModel extends Model
             ->countAllResults();
     }
 
-    public function isLiked($tweet_id, $user_id)
+    public function LikebyIdTwt($tweet_id)
     {
-        return $this->where('tweet_id', $tweet_id)
-            ->where('user_id', $user_id)
-            ->countAllResults() > 0;
+        $query = $this->select('likes.id, users.username,users.fotoprofil, users.fullname, users.id as user_id')
+            ->where('tweet_id', $tweet_id)
+            ->join('users', 'users.id = likes.user_id')
+            ->findAll();
+    
+        return $query;
     }
+
 }

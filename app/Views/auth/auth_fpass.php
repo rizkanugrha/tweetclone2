@@ -32,7 +32,7 @@ $validation = \Config\Services::validation(); ?>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : '' ?>"
-                        name="email" value="<?= htmlentities(set_value('email'), ENT_QUOTES) ?>" id="email"
+                        name="email" value="<?= stripslashes(htmlentities(set_value('email'), ENT_QUOTES)) ?>" id="email"
                         placeholder="abc@zxc.vom">
                     <div style="color: red; font-size: small;">
                         <?= $validation->getError('email') ?>

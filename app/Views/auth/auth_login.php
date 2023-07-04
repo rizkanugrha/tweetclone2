@@ -51,7 +51,7 @@ $validation = \Config\Services::validation();
                     <input type="username"
                         class="form-control <?= ($validation->hasError('username')) ? 'is-invalid' : '' ?>"
                         name="username" id="username" placeholder="username"
-                        value="<?= htmlentities(set_value('username'), ENT_QUOTES) ?>">
+                        value="<?= stripslashes(htmlentities(set_value('username'), ENT_QUOTES)) ?>">
                     <div style="color: red; font-size: small;"> <?= $validation->getError('username') ?> </div>
                 </div>
                 <div class="mb-3">

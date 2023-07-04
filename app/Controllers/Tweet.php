@@ -52,9 +52,9 @@ class Tweet extends BaseController
             $likeCounts[$tweet->id] = $likeCount;
         }
         $data['likeCounts'] = $likeCounts;
-        
+
         $komenCounts = [];
-        foreach($cek as $tweet) {
+        foreach ($cek as $tweet) {
             $komenCount = $this->komenMdl->komenCount($tweet->id);
             $komenCounts[$tweet->id] = $komenCount;
         }
@@ -80,7 +80,7 @@ class Tweet extends BaseController
         $data['likeCounts'] = $likeCounts;
 
         $komenCounts = [];
-        foreach($cek as $tweet) {
+        foreach ($cek as $tweet) {
             $komenCount = $this->komenMdl->komenCount($tweet->id);
             $komenCounts[$tweet->id] = $komenCount;
         }
@@ -124,8 +124,14 @@ class Tweet extends BaseController
                     //mengecek foto baru ke upload dan belum move ke folder
                     $namafoto = $foto->getRandomName();
                     $foto->move('asset/images/tweets', $namafoto);
+                  
+                    $pathFoto = FCPATH . 'asset/images/tweets/' . $getid->fototweet;
+                    if (file_exists($pathFoto) && is_file($pathFoto)) {
+                        unlink($pathFoto);
+                    }
                 }
             }
+            
             $data['fototweet'] = $namafoto;
             $res = $this->tweetMdl->update($id, $data);
             session()->setFlashdata('editsus', 'Berhasil mengupdate Tweet');
@@ -189,6 +195,27 @@ class Tweet extends BaseController
         return redirect()->to('/');
     }
 
+    public function delfottweet($tweet_id)
+    {
+        $getid = $this->tweetMdl->where('id', $tweet_id)->first();
+        if ($getid->user_id != $this->curUser['userid']) {
+            session()->setFlashdata('editsus', 'Gagal menghapus Tweet karena bukan Tweet Anda');
+            return redirect()->to('/');
+        }
+        if (!empty($getid->fototweet)) {
+            $data['fototweet'] = null;
+            $pathFoto = FCPATH . 'asset/images/tweets/' . $getid->fototweet;
+            if (file_exists($pathFoto)) {
+                unlink($pathFoto);
+            }
+            $this->tweetMdl->update($tweet_id, $data);
+            session()->setFlashdata('berhapusfot', 'Berhasil menghapus foto Tweet');
+            return redirect()->to('/');
+        }
+        return redirect()->to('/');
+
+    }
+
     public function detail($twtid)
     {
         $find = $this->tweetMdl->detailbyId($twtid);
@@ -196,7 +223,10 @@ class Tweet extends BaseController
 
         $likeCount = $this->likesMdl->getLikeCount($find->id); //getlike by id tweet
         $likeCounts[$find->id] = $likeCount;
-
+        //user liked cari list
+        $likedUsers = $this->likesMdl->LikebyIdTwt($find->id);
+        $likedByUsers[$find->id] = $likedUsers;
+       // dd($likedByUsers);
         $komenCount = $this->komenMdl->komenCount($find->id);
         $komenCounts[$find->id] = $komenCount;
 
@@ -204,6 +234,7 @@ class Tweet extends BaseController
         $komentar = $this->komenMdl->getKomentarByTweetId($find->id);
 
         $data = [
+            'likedByUsers' => $likedByUsers[$find->id],
             'likeCounts' => $likeCounts[$find->id],
             'komenCounts' => $komenCounts[$find->id],
             'content' => $find->content,

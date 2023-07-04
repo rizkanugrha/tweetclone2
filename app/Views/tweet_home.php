@@ -28,10 +28,10 @@
                         <p class="card-text">
                             <a class="btn btn-info btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;"
                                 href="<?= base_url('/add') ?>">Tweet Baru</a>
+                            <a class="btn btn-info btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;"
+                                href="<?= base_url('/profil/' . $profile->username) ?>">Profil </a>
                             <a class="btn btn-danger btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;"
                                 href="<?= base_url('/logout') ?>">Logout</a>
-                            <a class="btn btn-info btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;"
-                                href="<?= base_url('/profil/' . $profile->username) ?>"> = </a>
                         </p>
                     </div>
                 </div>
@@ -63,6 +63,11 @@
         <?php if (session()->getFlashdata('berhapus')): ?>
             <div class="alert alert-success" role="alert">
                 <?= session()->getFlashdata('berhapus') ?>
+            </div>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('berhapusfot')): ?>
+            <div class="alert alert-success" role="alert">
+                <?= session()->getFlashdata('berhapusfot') ?>
             </div>
         <?php endif; ?>
         <!-- akhir alert hapus-->
@@ -134,7 +139,7 @@
                             </div>
                         </a>
                         <a href="<?= base_url('/detail/' . $tweet->id) ?>" class="card-link"><i class="fas fa-comment"></i>
-                        <?=$komenCounts[$tweet->id];?>
+                            <?= $komenCounts[$tweet->id]; ?>
                         </a>
                     </div>
                 </div>

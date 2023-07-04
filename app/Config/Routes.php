@@ -41,7 +41,11 @@ $routes->get('/category/(:segment)', 'Tweet::category/$1', ['filter'=>'cekLogin'
 
 $routes->get('/add', 'Tweet::addForm', ['filter'=>'cekLogin']);
 $routes->post('/add', 'Tweet::addTweet', ['filter'=>'cekLogin']);
+
 $routes->get('/delete/(:num)', 'Tweet::delTweet/$1', ['filter'=>'cekLogin']);
+$routes->get('/hpsfototweet/(:num)', 'Tweet::delfottweet/$1', ['filter'=>'cekLogin']);
+$routes->get('/profil/hpsfotoprofil/(:num)', 'Profil::delfotprofl/$1', ['filter'=>'cekLogin']);
+
 
 $routes->get('/edit/(:num)', 'Tweet::editForm/$1', ['filter'=>'cekLogin']);
 $routes->post('/edit/(:num)', 'Tweet::editTweet/$1', ['filter'=>'cekLogin']);

@@ -37,16 +37,13 @@
                 <?= $data['username']; ?>
               </small>
               <?php
-                    if (empty($data['fototweet'])) {
-                       echo "<p>". $data['content']. "</p>";
-                    } else {
-                      echo "<p>". $data['content'] . "</p>";
-                      echo '<br><img src="' . base_url('asset/images/tweets/' . $data['fototweet']) . '"  class="figure-img img-fluid rounded" style="max-width:350px;"> <br><br><br>';
-                    }
-                    ?>
-              <a href="#" class="card-link"><i class="fas fa-comment"></i>
-                <?= isset($data['komenCounts']) ? strval($data['komenCounts']) : '0'; ?>
-              </a>
+              if (empty($data['fototweet'])) {
+                echo "<p>" . $data['content'] . "</p>";
+              } else {
+                echo "<p>" . $data['content'] . "</p>";
+                echo '<br><img src="' . base_url('asset/images/tweets/' . $data['fototweet']) . '"  class="figure-img img-fluid rounded" style="max-width:350px;"> <br><br><br>';
+              }
+              ?>
 
               <a class="card-link like-button"
                 href="<?= base_url('/addlike/' . $data['id'] . '/' . $data['user_id']) ?>">
@@ -55,8 +52,43 @@
                   <p>
                     <?= $data['likeCounts']; ?>
                   </p>
+
                 </div>
               </a>
+              <a href="#" class="card-link"><i class="fas fa-comment"></i>
+                <?= isset($data['komenCounts']) ? strval($data['komenCounts']) : '0'; ?>
+              </a>
+              <button type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#likesModal<?= $data['id'] ?>">
+                Orang yang Menyukai Tweet
+              </button>
+
+              <div class="modal fade" id="likesModal<?= $data['id'] ?>" tabindex="-1" role="dialog"
+                aria-labelledby="likesModalLabel<?= $data['id'] ?>" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="likesModalLabel<?= $data['id'] ?>">Orang yang Menyukai Tweet</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <ul class="list-group">
+                        <?php if (isset($data['likedByUsers']) && is_array($data['likedByUsers'])): ?>
+                          <?php foreach ($data['likedByUsers'] as $likedUser): ?>
+                            <li class="list-group-item"><b>@<?= $likedUser['username']?></b> <i><?= $likedUser['fullname']?> </i></li>
+                          <?php endforeach; ?>
+                        <?php endif; ?>
+                      </ul>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             </div>
           </div>

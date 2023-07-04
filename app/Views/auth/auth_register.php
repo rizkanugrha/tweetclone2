@@ -17,7 +17,7 @@ helper('form');
                     <label for="username" class="form-label">Username</label>
                     <input type="username" class="form-control 
                     <?= ($validation->hasError('username')) ? 'is-invalid': '' ?>" 
-                    name="username" value="<?= htmlentities(set_value('username'), ENT_QUOTES) ?>"
+                    name="username" value="<?= stripslashes(htmlentities(set_value('username'), ENT_QUOTES)) ?>"
                         id="username" placeholder="username">
                     <div style="color: red; font-size: small;"> <?= $validation->getError('username') ?> </div>
                 </div>

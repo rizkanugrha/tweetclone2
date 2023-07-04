@@ -4,6 +4,18 @@
 
 <div class="container mt-4">
   <div class="row justify-content-center">
+  <?php if (session()->getFlashdata('berhapusfotpr')): ?>
+            <div class="alert alert-success" role="alert">
+                <?= session()->getFlashdata('berhapusfotpr') ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (session()->getFlashdata('psnpass')): ?>
+            <div class="alert alert-success" role="alert">
+                <?= session()->getFlashdata('psnpass') ?>
+            </div>
+        <?php endif; ?>
+        
     <div class="col-md-6">
       <div class="card">
         <div class="card-body">
@@ -26,9 +38,9 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><a href="<?= base_url('/profil/ubah-profil/' . $profile->username) ?>"
                 class="text-dark">Ubah Profil</a></li>
-            <li class="list-group-item"><a href="#" class="text-dark">Bookmark</a></li>
-            <li class="list-group-item"><a href="#" class="text-dark">Tweet Saya</a></li>
           </ul>
+          <a href="<?= base_url('/') ?>" class="btn btn-warning">Kembali</a>
+
         </div>
       </div>
     </div>

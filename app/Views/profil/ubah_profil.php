@@ -10,12 +10,16 @@ $validation = \Config\Services::validation(); ?>
       <div class="card">
         <div class="card-body">
           <div class="text-center mb-4">
-          <?php if (empty($profile->fotoprofil)) {
+          <?php if (empty($profile->fotoprofil) || $profile->fotoprofil == 'download.png') {
               echo '<img src="' . base_url('asset/images/profil/download.png') . '" class="mr-3 rounded-circle tahu" alt="User Avatar">';
             } else {
               echo '<img src="' . base_url('asset/images/profil/'.$profile->fotoprofil) . '"  class="mr-3 rounded-circle tahu" alt="User Avatar">';
+              echo '<br><br><a href="'. base_url('profil/hpsfotoprofil//'. $profile->id).'" class="btn btn-sm btn-danger"
+              onclick="return confirm(\'Anda yakin ingin hapus foto profil?\')">Hapus foto profil</a>';                  
             }
             ?>
+            <br><br>
+    
             <h5 class="mt-2">
               <?= $profile->fullname ?>
             </h5>
@@ -63,6 +67,7 @@ $validation = \Config\Services::validation(); ?>
             </div>
           </div>
           <button type="submit" class="btn btn-primary">Simpan</button>
+          <a href="<?= base_url('/profil/'. $profile->username) ?>" class="btn btn-warning">Kembali</a>
           <?= form_close() ?>
         </div>
       </div>
