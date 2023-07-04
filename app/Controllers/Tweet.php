@@ -41,9 +41,24 @@ class Tweet extends BaseController
     {
         $data['categories'] = $this->categories;
         $data['judul'] = 'Tweet Terbaru';
-
+        //  
         $data['profile'] = $this->profile;
         $data['tweets'] = $this->tweetMdl->getLatest();
+
+        $cek = $this->tweetMdl->getLatest();
+        $likeCounts = [];
+        foreach ($cek as $tweet) {
+            $likeCount = $this->likesMdl->getLikeCount($tweet->id);
+            $likeCounts[$tweet->id] = $likeCount;
+        }
+        $data['likeCounts'] = $likeCounts;
+        
+        $komenCounts = [];
+        foreach($cek as $tweet) {
+            $komenCount = $this->komenMdl->komenCount($tweet->id);
+            $komenCounts[$tweet->id] = $komenCount;
+        }
+        $data['komenCounts'] = $komenCounts;
 
         return view('tweet_home', $data);
     }
@@ -55,7 +70,21 @@ class Tweet extends BaseController
 
         $data['profile'] = $this->profile;
         $data['tweets'] = $this->tweetMdl->getByCategory($category);
+        $cek = $this->tweetMdl->getByCategory($category);
 
+        $likeCounts = [];
+        foreach ($cek as $tweet) {
+            $likeCount = $this->likesMdl->getLikeCount($tweet->id);
+            $likeCounts[$tweet->id] = $likeCount;
+        }
+        $data['likeCounts'] = $likeCounts;
+
+        $komenCounts = [];
+        foreach($cek as $tweet) {
+            $komenCount = $this->komenMdl->komenCount($tweet->id);
+            $komenCounts[$tweet->id] = $komenCount;
+        }
+        $data['komenCounts'] = $komenCounts;
         return view('tweet_home', $data);
     }
 
@@ -69,7 +98,8 @@ class Tweet extends BaseController
         $data = [
             'id' => $getid->id,
             'categories' => $this->categories,
-            'content' => $getid->content
+            'content' => $getid->content,
+            'fototweet' => $getid->fototweet
         ];
         return view('tweet_edit', compact('data'));
     }
@@ -80,15 +110,23 @@ class Tweet extends BaseController
         //dd($getid);
         if ($getid->user_id != $this->curUser['userid']) {
             session()->setFlashdata('editsus', 'Gagal mengedit Tweet karena bukan Tweet Anda');
-
             return redirect()->to('/');
         }
-
+        $foto = $this->request->getFile('fototweet');
         if ($this->validate($this->tweetMdl->rules)) {
-            $data = [
-                'content' => stripslashes(htmlentities($this->request->getPost('content'), ENT_QUOTES)),
-                'category' => stripslashes(htmlentities($this->request->getPost('category'), ENT_QUOTES))
-            ];
+            $data['content'] = stripslashes(htmlentities($this->request->getPost('content'), ENT_QUOTES));
+            $data['category'] = stripslashes(htmlentities($this->request->getPost('category'), ENT_QUOTES));
+            if ($foto->getError() == 4) {
+                //jika user tidak upload foto tweet
+                $namafoto = $getid->fototweet;
+            } else {
+                if ($foto->isValid() && !$foto->hasMoved()) {
+                    //mengecek foto baru ke upload dan belum move ke folder
+                    $namafoto = $foto->getRandomName();
+                    $foto->move('asset/images/tweets', $namafoto);
+                }
+            }
+            $data['fototweet'] = $namafoto;
             $res = $this->tweetMdl->update($id, $data);
             session()->setFlashdata('editsus', 'Berhasil mengupdate Tweet');
             return redirect()->to('/');
@@ -97,6 +135,7 @@ class Tweet extends BaseController
                 'id' => $getid->id,
                 'categories' => $this->categories,
                 'content' => $getid->content,
+                'fototweet' => $getid->fototweet,
                 'validation' => $this->validator
             ];
             return view('tweet_edit', compact('data'));
@@ -111,11 +150,23 @@ class Tweet extends BaseController
 
     public function addTweet()
     {
+        $foto = $this->request->getFile('fototweet');
+        //dd($foto);
         if ($this->validate($this->tweetMdl->rulesAdd)) {
-            $data = [
-                'content' => stripslashes(htmlentities($this->request->getPost('content'), ENT_QUOTES)),
-                'category' => htmlentities($this->request->getPost('category'), ENT_QUOTES)
-            ];
+            $data['content'] = stripslashes(htmlentities($this->request->getPost('content'), ENT_QUOTES));
+            $data['category'] = htmlentities($this->request->getPost('category'), ENT_QUOTES);
+
+            if ($foto->getError() == 4) {
+                //jika user tidak upload foto tweet
+                $namafoto = null;
+            } else {
+                if ($foto->isValid() && !$foto->hasMoved()) {
+                    //mengecek foto baru ke upload dan belum move ke folder
+                    $namafoto = $foto->getRandomName();
+                    $foto->move('asset/images/tweets', $namafoto);
+                }
+            }
+            $data['fototweet'] = $namafoto;
             $this->tweetMdl->newTweet($this->sess->get('currentuser'), $data);
             $this->sess->setFlashdata('addtweet', 'Berhasil Menambah Tweets');
             return redirect()->to('/');
@@ -161,6 +212,7 @@ class Tweet extends BaseController
             'username' => $find->username,
             'fullname' => $find->fullname,
             'category' => $find->category,
+            'fototweet' => $find->fototweet,
             'created_at' => $find->created_at,
             'komentar' => $komentar
         ];

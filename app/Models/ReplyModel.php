@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Entities\Reply;
 use CodeIgniter\Model;
 
 class ReplyModel extends Model

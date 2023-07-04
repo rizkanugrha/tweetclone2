@@ -24,9 +24,9 @@
         <div class="card-body">
           <div class="media">
             <?php if (empty($data['fotoprofil'])) {
-              echo '<img src="' . base_url('asset/images/download.png') . '" class="mr-3 rounded-circle tahu" alt="User Avatar">';
+              echo '<img src="' . base_url('asset/images/profil/download.png') . '" class="mr-3 rounded-circle tahu" alt="User Avatar">';
             } else {
-              echo '<img src="' . base_url('asset/images/' . $data['fotoprofil']) . '"  class="mr-3 rounded-circle tahu" alt="User Avatar">';
+              echo '<img src="' . base_url('asset/images/profil/' . $data['fotoprofil']) . '"  class="mr-3 rounded-circle tahu" alt="User Avatar">';
             }
             ?>
             <div class="media-body">
@@ -36,10 +36,14 @@
               <small>@
                 <?= $data['username']; ?>
               </small>
-              <p>
-                <?= $data['content']; ?>
-              </p>
-
+              <?php
+                    if (empty($data['fototweet'])) {
+                       echo "<p>". $data['content']. "</p>";
+                    } else {
+                      echo "<p>". $data['content'] . "</p>";
+                      echo '<br><img src="' . base_url('asset/images/tweets/' . $data['fototweet']) . '"  class="figure-img img-fluid rounded" style="max-width:350px;"> <br><br><br>';
+                    }
+                    ?>
               <a href="#" class="card-link"><i class="fas fa-comment"></i>
                 <?= isset($data['komenCounts']) ? strval($data['komenCounts']) : '0'; ?>
               </a>
@@ -62,9 +66,9 @@
             <?php foreach ($data['komentar'] as $comment): ?>
               <div class="media">
                 <?php if (empty($comment['fotoprofil'])) {
-                  echo '<img src="' . base_url('asset/images/download.png') . '" class="mr-3 rounded-circle tahu2" alt="User Avatar">';
+                  echo '<img src="' . base_url('asset/images/profil/download.png') . '" class="mr-3 rounded-circle tahu2" alt="User Avatar">';
                 } else {
-                  echo '<img src="' . base_url('asset/images/' . $comment['fotoprofil']) . '"  class="mr-3 rounded-circle tahu2" alt="User Avatar">';
+                  echo '<img src="' . base_url('asset/images/profil/' . $comment['fotoprofil']) . '"  class="mr-3 rounded-circle tahu2" alt="User Avatar">';
                 }
                 ?>
                 <div class="media-body">
@@ -107,9 +111,9 @@
                       <div class="nested-comments">
                         <div class="media">
                           <?php if (empty($reply['fotoprofil'])) {
-                            echo '<img src="' . base_url('asset/images/download.png') . '" class="mr-3 rounded-circle tahu3" alt="User Avatar">';
+                            echo '<img src="' . base_url('asset/images/profil/download.png') . '" class="mr-3 rounded-circle tahu3" alt="User Avatar">';
                           } else {
-                            echo '<img src="' . base_url('asset/images/' . $reply['fotoprofil']) . '"  class="mr-3 rounded-circle tahu3" alt="User Avatar">';
+                            echo '<img src="' . base_url('asset/images/profil/' . $reply['fotoprofil']) . '"  class="mr-3 rounded-circle tahu3" alt="User Avatar">';
                           }
                           ?>
                           <div class="media-body">

@@ -57,14 +57,21 @@ class Profil extends BaseController
         if ($this->validate($this->userMdl->ProfilRules)) {
 
             $data['password'] = $this->request->getPost('passbaru');
-
-            if ($foto->isValid() && !$foto->hasMoved()) {
-                //mengecek foto ke upload dan belum move ke folder
-                $namafoto = $foto->getRandomName();
-                $foto->move('asset/images', $namafoto);
-                $data['fotoprofil'] = $namafoto;
+            if($foto->getError() == 4 && empty($this->profile->fotoprofil)) {
+                  //jika tidak update foto dan blm pnya foto
+                $namafoto = 'download.png';
+            } else if($foto->getError() == 4){
+                //jika user sudah punya foto dan tidak update foto
+                $namafoto = $this->profile->fotoprofil;
+            } else {
+                if ($foto->isValid() && !$foto->hasMoved()) {
+                    //mengecek foto baru ke upload dan belum move ke folder
+                    $namafoto = $foto->getRandomName();
+                    $foto->move('asset/images/profil', $namafoto);
+                }
             }
             //dd($foto->getError());
+            $data['fotoprofil'] = $namafoto;
             $this->userMdl->ubahProfil($id, $data);
 
             session()->setFlashdata('psnpass', 'Berhasil ganti password baru');

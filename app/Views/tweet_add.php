@@ -11,7 +11,7 @@ $validation = \Config\Services::validation(); ?>
                 <strong>Tweet Baru</strong>
             </div>
             <div class="card-body">
-                <?= form_open('/add') ?>
+                <?= form_open_multipart('/add') ?>
                 <?= csrf_field(); ?>
                 <div class="mb-3">
                     <label for="content" class="form-label">Tweet</label>
@@ -28,10 +28,10 @@ $validation = \Config\Services::validation(); ?>
                 <div class="mb-3">
                     <label for="tweet-image">Foto Tweet</label>
                     <input type="file" name="fototweet"
-                        class="form-control-file"
+                        class="form-control-file <?= ($validation->hasError('fototweet')) ? 'is-invalid' : '' ?>"
                         id="tweet-image">
                     <div style="color: red; font-size: small;">
-                      
+                        <?= $validation->getError('fototweet') ?>
                     </div>
                 </div>
                 <div class="mb-3">

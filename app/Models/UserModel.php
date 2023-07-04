@@ -74,9 +74,8 @@ class UserModel extends Model
             ],
         ],
         'fotoprofil' => [
-            'rules' => 'uploaded[fotoprofil]|max_size[fotoprofil,1024]|is_image[fotoprofil]|mime_in[fotoprofil,image/jpg,image/jpeg,image/png]',
+            'rules' => 'max_size[fotoprofil,1024]|is_image[fotoprofil]|mime_in[fotoprofil,image/jpg,image/jpeg,image/png]',
             'errors' => [
-                'uploaded' => 'Pilih foto profil terlebih dahulu',
                 'max_size' => 'Ukuran gambar terlalu besar',
                 'is_image' => 'Yang Anda pilih bukan gambar',
                 'mime_in' => 'Yang Anda pilih bukan gambar',
@@ -118,7 +117,7 @@ class UserModel extends Model
         $user = new User();
         $user->password = $data['password'];
         $user->fotoprofil = $data['fotoprofil'];
-        return $this->update($id, $data);
+        return $this->update($id, $user);
     }
 
     public function login($username, $password)

@@ -9,9 +9,9 @@
         <div class="card-body">
           <div class="text-center mb-4">
             <?php if (empty($profile->fotoprofil)) {
-              echo '<img src="' . base_url('asset/images/download.png') . '" class="mr-3 rounded-circle tahu2" alt="User Avatar">';
+              echo '<img src="' . base_url('asset/images/profil/download.png') . '" class="mr-3 rounded-circle tahu" alt="User Avatar">';
             } else {
-              echo '<img src="' . base_url('asset/images/'.$profile->fotoprofil) . '"  class="mr-3 rounded-circle tahu2" alt="User Avatar">';
+              echo '<img src="' . base_url('asset/images/profil/'.$profile->fotoprofil) . '"  class="mr-3 rounded-circle tahu" alt="User Avatar">';
             }
             ?>
 

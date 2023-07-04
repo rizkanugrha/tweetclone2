@@ -10,8 +10,12 @@ $validation = \Config\Services::validation(); ?>
       <div class="card">
         <div class="card-body">
           <div class="text-center mb-4">
-            <img src="<?= base_url('asset/images/download.png'); ?>" class="mr-3 rounded-circle tahu2"
-              alt="User Avatar">
+          <?php if (empty($profile->fotoprofil)) {
+              echo '<img src="' . base_url('asset/images/profil/download.png') . '" class="mr-3 rounded-circle tahu" alt="User Avatar">';
+            } else {
+              echo '<img src="' . base_url('asset/images/profil/'.$profile->fotoprofil) . '"  class="mr-3 rounded-circle tahu" alt="User Avatar">';
+            }
+            ?>
             <h5 class="mt-2">
               <?= $profile->fullname ?>
             </h5>

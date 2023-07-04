@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Entities\Komen;
 use CodeIgniter\Model;
 
 

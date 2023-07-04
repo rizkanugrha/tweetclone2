@@ -8,9 +8,9 @@
                 <div class="col-md-4">
                     <?php
                     if ($profile->fotoprofil == null) {
-                        echo '<img src="' . base_url('asset/images/download.png') . '" class="img-fluid rounded-start" alt="User Avatar">';
+                        echo '<img src="' . base_url('asset/images/profil/download.png') . '" class="img-fluid rounded-start" alt="User Avatar">';
                     } else {
-                        echo '<img src="' . base_url('asset/images/' . $profile->fotoprofil) . '"  class="img-fluid rounded-start" alt="User Avatar">';
+                        echo '<img src="' . base_url('asset/images/profil/' . $profile->fotoprofil) . '"  class="img-fluid rounded-start" alt="User Avatar">';
 
                     }
                     ?>
@@ -84,9 +84,9 @@
                 <div class="col-sm-2">
                     <?php
                     if (empty($tweet->fotoprofil)) {
-                        echo '<img src="' . base_url('asset/images/download.png') . '" class="img-thumbnail" alt="User Avatar">';
+                        echo '<img src="' . base_url('asset/images/profil/download.png') . '" class="img-thumbnail" alt="User Avatar">';
                     } else {
-                        echo '<img src="' . base_url('asset/images/' . $tweet->fotoprofil) . '"  class="img-thumbnail" alt="User Avatar">';
+                        echo '<img src="' . base_url('asset/images/profil/' . $tweet->fotoprofil) . '"  class="img-thumbnail" alt="User Avatar">';
                     }
                     ?>
                 </div>
@@ -97,11 +97,13 @@
                         </small>
                     </h4>
                     <div class="mb-3">
-                        <?= $tweet->content ?><br><br>
                         <?php
-                        echo '<img src="' . base_url('asset/images/' . $tweet->fotoprofil) . '"  class="figure-img img-fluid rounded tweet-image" 
-                        style="max-width:200px;">';
-
+                        if (empty($tweet->fototweet)) {
+                            echo $tweet->content;
+                        } else {
+                            echo $tweet->content;
+                            echo '<br><br><img src="' . base_url('asset/images/tweets/' . $tweet->fototweet) . '"  class="figure-img img-fluid rounded" style="max-width:350px;">';
+                        }
                         ?>
                     </div>
                     <div class="container-fluid">
@@ -110,7 +112,6 @@
                             <small>
                                 <?= $tweet->getCreatedAt() ?>
                             </small>
-                            <a href="<?= base_url('/detail/' . $tweet->id) ?>" class="btn btn-sm btn-info">></a>
                         </span>
                         <?php
                         $sess = session();
@@ -123,6 +124,18 @@
                                     onclick="return confirm('Anda yakin ingin hapus tweet?')">D</a>
                             </span>
                         <?php endif; ?>
+                        <div></div>
+                        <a class="card-link" href="#">
+                            <i class="fa-heart far mt-icon-reaction"></i>
+                            <div class="mt-counter likes-count d-inline-block">
+                                <p>
+                                    <?= $likeCounts[$tweet->id]; ?>
+                                </p>
+                            </div>
+                        </a>
+                        <a href="<?= base_url('/detail/' . $tweet->id) ?>" class="card-link"><i class="fas fa-comment"></i>
+                        <?=$komenCounts[$tweet->id];?>
+                        </a>
                     </div>
                 </div>
             </div>
