@@ -537,3 +537,4 @@ in SYSTEMPATH\Cache\Handlers\FileHandler.php on line 62.
  9 SYSTEMPATH\CodeIgniter.php(696): cache()
 10 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->displayCache(Object(Config\Cache))
 11 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-07-04 08:35:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
